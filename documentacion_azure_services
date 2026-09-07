@@ -1,0 +1,41 @@
+1. Microsoft Foundry (antes Azure AI Foundry / Azure AI Studio)
+Qué es: Plataforma unificada para crear, evaluar y gobernar apps y agentes de IA. Incluye Foundry Models, Foundry Agent Service, Foundry Tools, Foundry Control Plane, Foundry Local. Categoría real: Plataforma IA / orquestación de agentes y LLMs.
+
+Casos de uso:
+Agente empresarial conectado a SharePoint, Fabric y Bing que responde con citas y respeta permisos.
+Orquestación multi-agente con Responses API v2 + tracing, evaluaciones y guardrails con Entra ID y Content Safety.
+Fine-tuning / despliegue de modelos (OpenAI, DeepSeek-R1, Hugging Face) con un solo endpoint OpenAI() y SDK azure-ai-projects 2.x.
+
+2. Azure AI Search / Foundry IQ
+Qué es: Azure AI Search es el motor de indexación + búsqueda híbrida (keyword + vector + semántica). Foundry IQ es su capa gestionada de conocimiento para agentes: una knowledge base sobre múltiples fuentes expuesta en un endpoint permission-aware con agentic retrieval. Categoría real: Servicio cognitivo / recuperación (RAG). Relación IA: 100% - es el RAG oficial de Foundry.
+
+Casos de uso:
+RAG empresarial: indexar Blob, OneLake, SharePoint + índices existentes y servirlo a Foundry Agent Service.
+Búsqueda e-commerce / soporte: búsqueda vectorial + filtros + respuestas citadas.
+Query directa sin agente: App -> Azure AI Search SDK -> Foundry IQ Knowledge Base -> resultados grounded.
+Nota: Foundry IQ requiere un recurso Azure AI Search. No lo reemplaza.
+
+3. Azure Cosmos DB
+Qué es: Base NoSQL distribuida globalmente, con modo vector search nativo y DiskANN. Categoría real: Base de datos, no cognitivo. Habilitador clave para IA. Relación IA: Media-alta como memoria + almacenamiento vectorial.
+
+Casos de uso:
+
+Memoria a largo plazo de agentes / chatbots: historial de conversaciones + perfiles con TTL y particionado.
+Vector store para RAG a escala: embeddings + búsqueda híbrida con baja latencia (<10ms) y escalado global.
+Backend de personalización en tiempo real: recomendaciones, detección de fraude, IoT con change feed hacia Foundry.
+4. Azure Kubernetes Service (AKS)
+Qué es: Kubernetes gestionado para correr contenedores con GPUs, autoscaling (KEDA, Karpenter) y malla de servicios. Categoría real: Cómputo / infraestructura, no cognitivo. Relación IA: Media como plataforma de inferencia y entrenamiento.
+
+Casos de uso:
+
+Servir LLMs open-source (Llama, Mistral) con vLLM / TGI en node pools GPU + HPA por cola.
+Pipelines MLOps: Kubeflow / MLflow + Azure ML para entrenamiento distribuido.
+Hostear microservicios del agente (retriever, reranker, APIs) que Foundry Agent Service invoca vía MCP / REST.
+5. Azure App Service
+Qué es: PaaS para web apps / APIs sin gestionar VMs. Categoría real: Cómputo PaaS, no cognitivo. Relación IA: Baja-media como frontend del sistema IA.
+
+Casos de uso:
+
+Frontend + API del Copilot: web React + backend Python/Node que llama a Foundry endpoint.
+Exponer APIs RAG de forma segura con Easy Auth (Entra ID), VNet y autoescalado.
+Prototipado rápido: desplegar plantilla azd ai y conectar a AI Search + Cosmos DB sin Kubernetes.
